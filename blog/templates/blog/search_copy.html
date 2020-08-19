@@ -1,0 +1,83 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+
+<form class="navbar-form navbar-left" method="get">
+        <div class="form-group">
+            {% csrf_token %}
+            <input type="text" name="q" data-toggle="popover" class="form-control" value="{{ request.GET.q }}" placeholder="输入你感兴趣的图书或者作者……">
+<!--            <input type="text" name="q" data-toggle="popover" data-placement="bottom" data-content="content" class="form-control cfe-nav mt-0 py-3" placeholder="Search..." value="" style="" data-original-title="" title="" autofocus="autofocus">-->
+        </div>
+        <button type="submit" class="btn btn-default">搜 索</button>
+    </form>
+    <br/>
+
+    <br/>
+
+    {% for book in books %}
+        <article class="media content-section">
+
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ book.author.id }}</a>
+              <small class="text-muted">{{ book.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h2><a class="article-title" href="#">{{ book.title }}</a></h2>
+<!--            <p class="article-content">{{ post.content }}</p>-->
+          </div>
+        </article>
+    {% endfor %}
+
+
+    {% if books.has_other_pages %}
+
+      {% if books.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">首页</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ books.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">上一页</a>
+      {% endif %}
+
+      {% for num in books.paginator.page_range %}
+        {% if books.number == num %}
+          <a class="btn btn-info mb-4" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
+        {% elif num > books.number|add:'-3' and num < books.number|add:'3' %}
+          <a class="btn btn-outline-info mb-4" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if books.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ books.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">下一页</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ books.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">页尾</a>
+      {% endif %}
+
+    {% endif %}
+
+
+<!--{% if books.has_other_pages %}-->
+<!--    <ul class="pagination">-->
+<!--        {% if books.has_previous %}-->
+<!--            <li class="waves-effect"><a href="?page=-->
+<!--                    {{ books.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i-->
+<!--                    class="material-icons">chevron_left</i></a></li>-->
+<!--        {% else %}-->
+<!--            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>-->
+<!--        {% endif %}-->
+<!--        {% for num in books.paginator.page_range %}-->
+<!--            {% if books.number == num %}-->
+<!--                <li class="active"><a href="#!">{{ num }}</a></li>-->
+<!--            {% else %}-->
+<!--                <li class="waves-effect"><a-->
+<!--                        href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a></li>-->
+<!--            {% endif %}-->
+<!--        {% endfor %}-->
+<!--        {% if books.has_next %}-->
+<!--            <li class="waves-effect"><a-->
+<!--                    href="?page={{ books.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i-->
+<!--                    class="material-icons">chevron_right</i></a></li>-->
+<!--        {% else %}-->
+<!--            <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>-->
+<!--        {% endif %}-->
+<!--    </ul>-->
+<!--{% endif %}-->
+
+
+{% endblock content %}
