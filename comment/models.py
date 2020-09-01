@@ -3,9 +3,11 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from blog.models import Post
 
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    reply = models.ForeignKey('Comment', null=True, related_name='replies', on_delete=models.CASCADE)
     created_on = models.DateTimeField(default=timezone.now)
     active = models.BooleanField(default=False)
     body = models.TextField(verbose_name='内容')

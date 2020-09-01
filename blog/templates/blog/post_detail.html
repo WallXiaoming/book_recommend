@@ -5,7 +5,7 @@
     <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
     <div class="media-body">
       <div class="article-metadata">
-        <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+        <a class="mr-2" href="{% url 'user-posts' object.author.username %}" style="color:black">{{ object.author }}</a>
         <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
         {% if object.author == user %}
           <div>
@@ -20,26 +20,6 @@
   </article>
 
 
-<article class="media content-section">
-      <div class="card-body">
-        <!-- comments -->
-        <legend class="border-bottom mb-4">{{ comments.count }} 条评论 </legend>
-
-        {% for comment in comments %}
-        <div class="comments" style="padding: 10px;">
-          <p class="font-weight-bold" href="{% url 'user-posts' comment.author.username %}">
-            {{ comment.author.username }}
-            <span class=" text-muted font-weight-normal">
-              {{ comment.created_on }}
-            </span>
-          </p>
-          {{ comment.body | linebreaks }}
-        </div>
-        {% endfor %}
-      </div>
-  </article>
-
-
 
 {% if user.is_authenticated %}
     <div class="content-section">
@@ -47,16 +27,88 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">评论</legend>
-                {{ comment_form|crispy }}
+                <div id="div_id_body" class="form-group">
+                    <label for="id_body" class=" requiredField"></label>
+                    <textarea name="body" class="form-control" rows="3" required id="id_body"></textarea>
+                </div>
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">提交</button>
             </div>
         </form>
     </div>
+
 {% else %}
-  <p>请先<a href="{% url 'login' %}">登录</a>后方可评论.</p>
+  <p>请先<a href="{% url 'login' %}?next={% url 'post-detail' object.pk %}">登录</a>后方可评论.</p>
 {% endif %}
 
 
+<article class="media content-section">
+      <div class="card-body">
+        <!-- comments -->
+        <legend class="border-bottom mb-4">{{ comments.count }} 条评论 </legend>
+
+        {% for comment in comments %}
+          {% if not comment.reply %}
+       <div class="media mb-4">
+          <img class="rounded-circle article-img" src="{{ comment.author.profile.image.url }}" alt="" style="height: 50px; width: 50px;">
+          <div class="media-body">
+
+            <p class="font-weight-bold" href="{% url 'user-posts' comment.author.username %}">
+                <a href="{% url 'user-posts' comment.author.username %}" style="color:black">{{ comment.author.username }}</a>
+                <span class=" text-muted font-weight-normal">
+                  {{ comment.created_on }}
+                    {% if user.is_authenticated %}
+                    <a class="" data-toggle="collapse" href="#collapseExample_{{ comment.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        回复
+                    </a>
+                    {% endif %}
+                </span>
+            </p>
+            {{ comment.body | linebreaks }}
+
+              {% for reply in comment.replies.all %}
+              <div class="media mt-4">
+                  <img class="rounded-circle article-img" src="{{ reply.author.profile.image.url }}" alt="" style="height: 50px; width: 50px;">
+                  <div class="media-body">
+                    <p class="font-weight-bold" href="{% url 'user-posts' comment.author.username %}">
+                        <a href="{% url 'user-posts' reply.author.username %}" style="color:black">{{ reply.author.username }}</a>
+                        <span class=" text-muted font-weight-normal">
+                          {{ reply.created_on }}
+                        </span>
+                        {{ reply.body | linebreaks }}
+                    </p>
+                  </div>
+              </div>
+              {% endfor %}
+
+          </div>
+        </div>
+
+
+      <div class="collapse" id="collapseExample_{{ comment.id }}">
+<!--          <div class="card card-body">-->
+              <div class="container my-3">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">评论</legend>
+                        <div id="div_id_body" class="form-group">
+                            <label for="id_body" class=" requiredField"></label>
+                            <textarea name="body" class="form-control" rows="3" required id="id_body"></textarea>
+                        </div>
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit">提交</button>
+                    </div>
+                </form>
+            </div>
+<!--          </div>-->
+      </div>
+
+          {% endif %}
+        {% endfor %}
+      </div>
+  </article>
 {% endblock content %}

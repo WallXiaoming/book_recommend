@@ -30,6 +30,11 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
 
+    def get_content(self):
+        if len(self.content) > 1000:
+            return self.content[:1000] + '...'
+        return self.content
+
 
 class Book(models.Model):
     title = models.CharField(max_length=100)
