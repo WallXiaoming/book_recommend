@@ -39,7 +39,7 @@ INSTALLED_APPS = [
 
     # third part apps
     'crispy_forms',
-    'ckeditor',
+    # 'ckeditor',
     'martor',
 
     'django.contrib.admin',
@@ -152,24 +152,6 @@ EMAIL_PORT = 994
 EMAIL_HOST_USER = 'jachindjango@163.com'
 DEFAULT_FROM_EMAIL = 'jachindjango@163.com'
 EMAIL_HOST_PASSWORD = 'ARUQAKELDAYURSVB'
-
-
-CKEDITOR_CONFIGS = {
-    'default': {
-        # 'height': '100%',
-        'width': '100%',
-
-    'stylesSet': [
-                {
-                    'name': 'Image-Fluid',
-                    'element': 'img',
-                    'attributes': {'class': 'img-fluid'},
-                },
-            ],
-    },
-    'disallowedContent': {'img{border*,margin*},table[border]{*}',}
-}
-
 
 
 # Global martor settings
