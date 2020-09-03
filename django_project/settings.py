@@ -134,7 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -215,6 +215,6 @@ MARTOR_MARKDOWN_BASE_MENTION_URL = 'https://python.web.id/author/'              
 
 # If you need to use your own themed semantic ui dependency
 # replace the values with the file in your static files dir
-MARTOR_ALTERNATIVE_SEMANTIC_JS_FILE = "semantic-themed/semantic.min.js"
-MARTOR_ALTERNATIVE_SEMANTIC_CSS_FILE = "semantic-themed/semantic.min.css"
+MARTOR_ALTERNATIVE_SEMANTIC_JS_FILE = "plugins/js/semantic.min.js"
+MARTOR_ALTERNATIVE_SEMANTIC_CSS_FILE = "plugins/css/semantic.min.css"
 MARTOR_ALTERNATIVE_JQUERY_JS_FILE = "jquery/dist/jquery.js"
