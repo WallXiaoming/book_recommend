@@ -13,7 +13,7 @@
 
     {% for object in object_list %}
         <article class="media content-section">
-            <h5><a class="article-title" href="#">{{ object.title }}</a></h5>
+            <h5><a class="article-title" href="{% url 'book-detail' object.id %}">{{ object.title }}</a></h5>
         </article>
     {% endfor %}
 

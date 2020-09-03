@@ -1,0 +1,44 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!--    这是图书信息-->
+<article class="media content-section">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="text-center" style="margin: 3px 5px 0 0">
+                      <img src="{{ user.profile.image.url }}" class="rounded" alt="Book Image">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <br/>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>书名:</strong> {{ object.title }}</li>
+                        <li class="list-group-item"><strong>作者:</strong> {{ object.author }}</li>
+                        <li class="list-group-item"><strong>出版社:</strong> <br/><br/>{{ object.content }}</li>
+                        <li class="list-group-item"><strong>相关链接:</strong> <br/><br/>{{ object.content }}</li>
+                    </ul>
+                <br/>
+            </div>
+
+
+            <div class="col-md-12">
+                <br/>
+                <hr/>
+                <h5 class="article-title">描述</h5>
+                <p class="article-content">{{ object.content|safe }}</p>
+
+                <br/>
+                <!-- 推荐图书 -->
+                <hr/>
+                <h5 class="article-title">相关图书推荐</h5>
+                <br/>
+                <article class="media content-section">
+                    <h5><a class="article-title" href="{% url 'book-detail' object.id %}">{{ object.title }}</a></h5>
+                </article>
+            </div>
+        </div>
+    </div>
+</article>
+{% endblock %}
