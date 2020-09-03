@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <div class="text-center" style="margin: 3px 5px 0 0">
+                <div class="text-center" style="margin: 25px 5px 0 0">
                       <img src="{{ user.profile.image.url }}" class="rounded" alt="Book Image">
                 </div>
             </div>
@@ -32,10 +32,10 @@
                 <br/>
                 <!-- 推荐图书 -->
                 <hr/>
-                <h5 class="article-title">相关图书推荐</h5>
+                <h5 class="article-title">猜你喜欢</h5>
                 <br/>
                 <article class="media content-section">
-                    <h5><a class="article-title" href="{% url 'book-detail' object.id %}">{{ object.title }}</a></h5>
+                    <a class="article-title" href="{% url 'book-detail' object.id %}">{{ object.title }}</a>
                 </article>
             </div>
         </div>
