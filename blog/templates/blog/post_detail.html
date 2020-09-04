@@ -87,24 +87,22 @@
 
 
       <div class="collapse" id="collapseExample_{{ comment.id }}">
-<!--          <div class="card card-body">-->
-              <div class="container my-3">
-                <form method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                    <fieldset class="form-group">
-                        <legend class="border-bottom mb-4">评论</legend>
-                        <div id="div_id_body" class="form-group">
-                            <label for="id_body" class=" requiredField"></label>
-                            <textarea name="body" class="form-control" rows="3" required id="id_body"></textarea>
-                        </div>
-                    </fieldset>
-                    <div class="form-group">
-                        <button class="btn btn-outline-info" type="submit">提交</button>
-                    </div>
-                </form>
-            </div>
-<!--          </div>-->
+		  <div class="container my-3">
+			<form method="POST">
+				{% csrf_token %}
+				<input type="hidden" name="comment_id" value="{{ comment.id }}">
+				<fieldset class="form-group">
+					<legend class="border-bottom mb-4">评论</legend>
+					<div id="div_id_body" class="form-group">
+						<label for="id_body" class=" requiredField"></label>
+						<textarea name="body" class="form-control" rows="3" required id="id_body"></textarea>
+					</div>
+				</fieldset>
+				<div class="form-group">
+					<button class="btn btn-outline-info" type="submit">提交</button>
+				</div>
+			</form>
+		</div>
       </div>
 
           {% endif %}
