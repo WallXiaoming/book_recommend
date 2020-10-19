@@ -67,9 +67,30 @@
             </p>
             {{ comment.body | linebreaks }}
 
-              {% for reply in comment.replies.all %}
-              <div class="media mt-4">
-                  <img class="rounded-circle article-img" src="{{ reply.author.profile.image.url }}" alt="" style="height: 50px; width: 50px;">
+			  <div class="collapse" id="collapseExample_{{ comment.id }}">
+				  <div class="container my-3">
+					<form method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="comment_id" value="{{ comment.id }}">
+						<fieldset class="form-group">
+							<legend class="border-bottom mb-4">评论</legend>
+							<div id="div_id_body" class="form-group">
+								<label for="id_body" class=" requiredField"></label>
+								<textarea name="body" class="form-control" rows="3" required id="id_body"></textarea>
+							</div>
+						</fieldset>
+						<div class="form-group">
+							<button class="btn btn-outline-info" type="submit">提交</button>
+						</div>
+					</form>
+				</div>
+			  </div>
+
+
+
+			  {% for reply in comment.replies.all %}
+                <div class="media mt-4">
+			  	<img class="rounded-circle article-img" src="{{ reply.author.profile.image.url }}" alt="" style="height: 50px; width: 50px;">
                   <div class="media-body">
                     <p class="font-weight-bold" href="{% url 'user-posts' comment.author.username %}">
                         <a href="{% url 'user-posts' reply.author.username %}" style="color:black">{{ reply.author.username }}</a>
@@ -85,28 +106,8 @@
           </div>
         </div>
 
-
-      <div class="collapse" id="collapseExample_{{ comment.id }}">
-		  <div class="container my-3">
-			<form method="POST">
-				{% csrf_token %}
-				<input type="hidden" name="comment_id" value="{{ comment.id }}">
-				<fieldset class="form-group">
-					<legend class="border-bottom mb-4">评论</legend>
-					<div id="div_id_body" class="form-group">
-						<label for="id_body" class=" requiredField"></label>
-						<textarea name="body" class="form-control" rows="3" required id="id_body"></textarea>
-					</div>
-				</fieldset>
-				<div class="form-group">
-					<button class="btn btn-outline-info" type="submit">提交</button>
-				</div>
-			</form>
-		</div>
-      </div>
-
-          {% endif %}
-        {% endfor %}
-      </div>
-  </article>
+	  {% endif %}
+	{% endfor %}
+  </div>
+</article>
 {% endblock content %}
