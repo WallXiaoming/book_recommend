@@ -15,6 +15,7 @@ from django.db.models import Q
 from comment.forms import CommentForm
 from django.contrib import messages
 from comment.models import Comment
+from random import randint
 
 
 class SearchView(ListView):
@@ -50,10 +51,12 @@ class SearchView(ListView):
 def book_search(request):
     books_list = Book.objects.none()
     query = request.GET.get('q')
+    print("this", query)
     if query:
         books_list = Book.objects.filter(
             Q(title__icontains=query) |
-            Q(content__icontains=query)
+            Q(content__icontains=query) |
+            Q(author__icontains=query)
         ).distinct()
     paginator = Paginator(books_list, 10)  # 6 posts per page
     page = request.GET.get('page')
@@ -68,7 +71,7 @@ def book_search(request):
     context = {
         'books': books
     }
-    return render(request, "blog/search_copy.html", context)
+    return render(request, "blog/search.html", context)
 
 
 def home(request):
@@ -170,4 +173,13 @@ def post_detail(request, pk):
 def book_detail(request, pk):
     template_name = 'blog/book_detail.html'
     book = get_object_or_404(Book, pk=pk)
-    return render(request, template_name, {'object': book,})
+    like1 = get_object_or_404(Book, pk=randint(5, 250))
+    like2 = get_object_or_404(Book, pk=randint(4, 250))
+    like3 = get_object_or_404(Book, pk=randint(7, 250))
+    like4 = get_object_or_404(Book, pk=randint(6, 250))
+    return render(request, template_name, {'object': book,
+                                           'like1': like1,
+                                           'like2': like2,
+                                           'like3': like3,
+                                           'like4': like4,
+                                           })

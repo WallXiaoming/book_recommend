@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.db.models import Q
 from ckeditor.fields import RichTextField
+from PIL import Image
 
 
 class BookManager(models.Manager):
@@ -11,7 +12,8 @@ class BookManager(models.Manager):
         qs = self.get_queryset()
         if query is not None:
             or_lookup = (Q(title__icontains=query) |
-                         Q(content__icontains=query)
+                         Q(content__icontains=query) |
+                         Q(author__icontains=query)
                         )
             qs = qs.filter(or_lookup).distinct() # distinct() is often necessary with Q lookups
         return qs
@@ -44,6 +46,7 @@ class Book(models.Model):
     author = models.CharField(max_length=100)
     publisher = models.CharField(max_length=100)
     url = models.URLField()
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
     objects = BookManager()
 
@@ -52,3 +55,13 @@ class Book(models.Model):
 
     def get_absolute_url(self):
         return reverse('book-detail', kwargs={'pk': self.pk})
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        img = Image.open(self.image.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
