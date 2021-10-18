@@ -33,7 +33,10 @@ class SearchView(ListView):
         request = self.request
         query = request.GET.get('q', None)
 
+        # print(query is None, dir(query), query == "")
         if query is not None:
+            if query == "":
+                return Book.objects.none()
             blog_results = Book.objects.search(query)
 
             # combine querysets
@@ -42,7 +45,7 @@ class SearchView(ListView):
             )
             qs = sorted(queryset_chain,
                         key=lambda instance: instance.pk,
-                        reverse=True)
+                        reverse=False)
             self.count = len(qs)  # since qs is actually a list
             return qs
         return Book.objects.none()  # just an empty queryset as default

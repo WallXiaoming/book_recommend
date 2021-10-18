@@ -1,6 +1,31 @@
 {% extends "blog/base.html" %}
 {% block content %}
     <h1> 关于我们 </h1>
+<form class="form-inline my-2 my-lg-0" onsubmit="return false;" >
+	<input class="form-control mr-sm-2" placeholder="" id="content" value=" ">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="button" id="search">搜索</button>
+</form>
 
+<div class="col-md-4 col-12">
+	<div class="card" style="height: 300px;">
+		<div class="card-header">
+	方案中心
+		</div>
+		<div class="card-body">
+			<ul class="list-group list-group-flush" style="width: 100%;font-size: 1.3rem">
+																	<li class="list-group-item"><a href="/plan?id=1">test</a></li>
+																</ul>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+  <div class="col-xs-6 col-md-3">
+    <a href="#" class="thumbnail">
+      <img src="..." alt="...">
+    </a>
+  </div>
+  ...
+</div>
 {% endblock content %}
 
