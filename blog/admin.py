@@ -2,4 +2,9 @@ from django.contrib import admin
 from .models import Post, Book
 
 admin.site.register(Post)
-admin.site.register(Book)
+
+
+@admin.register(Book)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('title', 'content', 'publisher')
+    search_fields = ('title',  'author')
